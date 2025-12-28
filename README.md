@@ -81,3 +81,33 @@ Bot: feeling empty can be very difficult and painful. you are not alone.
 
 You: bye
 Bot: Take care of yourself. You are not alone.
+
+##  How to Run
+
+### 1️⃣ Install dependencies
+```bash
+pip install -r requirements.txt
+2️⃣ Run the chatbot
+bash
+Copy code
+python main.py
+🧪 Testing & Error Analysis
+Random and edge-case inputs were tested
+
+Low-confidence responses were logged
+
+The corpus was improved iteratively based on failures
+
+This reflects real-world NLP development, where data quality matters more than model complexity.
+
+ Technologies Used
+
+Python
+
+NLTK
+
+Scikit-learn
+
+TF-IDF Vectorizer
+
+Cosine Similarity
