@@ -1,5 +1,7 @@
 from chatbot.vectorizer import TfidfTextVectorizer
 from chatbot.similarity import find_best_match
+import random
+
 
 
 class ChatBot:
@@ -23,7 +25,11 @@ class ChatBot:
         if best_score < self.threshold:
             with open("data/error_log.txt", "a") as f:
                 f.write(f"USER: {user_input}\n")
-            return "Sorry, I didn’t understand that. Can you please rephrase?"
+            return random.choice([
+                "Sorry, I didn’t understand that. Can you rephrase?",
+                "I’m not sure I understood. Can you say it differently?",
+                "Could you tell me a bit more?"
+            ])
 
         # ✅ RETURN ANSWER, NOT QUESTION
         return self.answers[best_idx]

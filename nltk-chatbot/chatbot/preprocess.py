@@ -3,12 +3,23 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+
 
 
 # initialize stopwords and lemmatizer once
 STOP_WORDS = set(stopwords.words("english"))
 LEMMATIZER = WordNetLemmatizer()
 
+def get_synonyms(word):
+    """
+    Returns a set of synonyms for a word using WordNet
+    """
+    synonyms = set()
+    for syn in wordnet.synsets(word):
+        for lemma in syn.lemmas():
+            synonyms.add(lemma.name().lower())
+    return synonyms
 
 def preprocess_text(text):
     """
@@ -43,5 +54,9 @@ def preprocess_text(text):
         # remove short/invalid tokens
         if len(lemma) > 2:
             clean_tokens.append(lemma)
+            synonyms = get_synonyms(lemma)
+            for syn in list(synonyms)[:2]:  # limit to avoid explosion
+                if syn.isalpha():
+                    clean_tokens.append(syn)
 
     return clean_tokens
