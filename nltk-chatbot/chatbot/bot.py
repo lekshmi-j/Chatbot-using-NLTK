@@ -3,13 +3,14 @@ from chatbot.similarity import find_best_match
 
 
 class ChatBot:
-    def __init__(self, corpus_sentences, threshold=0.2):
-        self.corpus_sentences = corpus_sentences
+    def __init__(self, questions, answers, threshold=0.2):
+        self.questions = questions
+        self.answers = answers
         self.threshold = threshold
 
-        # initialize and fit TF-IDF
+        # fit TF-IDF ONLY on questions
         self.vectorizer = TfidfTextVectorizer()
-        self.corpus_matrix = self.vectorizer.fit(corpus_sentences)
+        self.corpus_matrix = self.vectorizer.fit(questions)
 
     def get_response(self, user_input):
         """
@@ -20,6 +21,9 @@ class ChatBot:
         best_idx, best_score = find_best_match(user_vector, self.corpus_matrix)
 
         if best_score < self.threshold:
+            with open("data/error_log.txt", "a") as f:
+                f.write(f"USER: {user_input}\n")
             return "Sorry, I didn’t understand that. Can you please rephrase?"
 
-        return self.corpus_sentences[best_idx]
+        # ✅ RETURN ANSWER, NOT QUESTION
+        return self.answers[best_idx]
